@@ -1,3 +1,8 @@
+html,body{
+    margin: 0;
+    padding: 0;
+}
+
 body{
     background-color: #faf3e0;
 }
@@ -5,4 +10,10 @@ body{
 #cBusca{
     display: grid;
     place-items: center;
+    background-color: #5DADE2;
+    height: 20vh;
 }
+#tBusca{
+    font-size: 8vh;
+    color: white;
+    f
