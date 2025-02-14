@@ -43,7 +43,7 @@ animation: slideDesdeAbajo 1.5s ease-out;
 
 #cPlay{
 display: grid;
-align-items: center;
+align-items: center
 }
 
 @keyframes slideDesdeArriba {
