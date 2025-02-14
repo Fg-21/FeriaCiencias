@@ -1,0 +1,8 @@
+body{
+    background-color: #faf3e0;
+}
+
+#cBusca{
+    display: grid;
+    place-items: center;
+}
