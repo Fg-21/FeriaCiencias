@@ -3,13 +3,15 @@ let currentPlayer;
 
 $("#bJugar").on("click", () => {
 	comprobar($("iNombre").val());
+	window.location.href = "web/Juego.html"
 })
+
 obtenerNombres();
 
 
 function envioNombre(objeto_js) {
 	$.ajax({
-	    url: "players.json",
+	    url: "scripts/players.json",
 	    method: "POST",
 	    data: JSON.stringify(objeto_js),
 	    contentType: "application/json", // Especifica el tipo de contenido
@@ -27,7 +29,7 @@ function envioNombre(objeto_js) {
 function obtenerNombres(){
 	$.ajax({ 
 		//
-		url: "players.json", 
+		url: "scripts/players.json", 
 		method: "GET", 
 		dataType: "json", // Convierte la respuesta a objeto JSON 
 		success: function(data) { //200 o 201
@@ -64,4 +66,8 @@ function comprobar(name){
 			currentPlayer = new Player(name);
 		}
 	})
+}
+
+function ranking(){
+
 }
