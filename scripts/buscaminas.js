@@ -15,7 +15,7 @@ $(document).ready(function(){
 		const setPoints = (value) => {
 			points = value;
 		};
-		return {username, points, getName, getPoints, setPoints};
+		return {username, points, active, getName, getPoints, setPoints};
 	}
 
 
@@ -26,12 +26,13 @@ $(document).ready(function(){
 	if (window.location.pathname.includes('Index.html')) {
 		console.log(window.location.pathname);
 
-		$("#bJugar").on("click", () => {
+		$("#bJugar").on("click", (e) => {
+			e.preventDefault()
 			console.log("me eejco");
 			comprobar($("#iNombre").val());
 			
-			console.log(currentPlayer);
-			//window.location.assign("web/Juego.html");
+			//console.log(currentPlayer);
+			window.location.assign("web/Juego.html");
 			
 		})
 
@@ -40,29 +41,27 @@ $(document).ready(function(){
 			if (name === "" || name === null){
 				alert("Introduce un nombre")
 			}else{
-				currentPlayer = Player(name);
-				envioNombre(currentPlayer);
-			}
-			/*
-			Hara falta a la hora de hacer el post
-			userNames.forEach((item)=>{
-				if(item.name === name){
-					currentPlayer = item;
-				}
-			
-			})*/
 
-			async function enviar(objeto) {
-				const response = await fetch('http://localhost:5000/api/añadir', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(objeto)
-				});
-			
-				const data = await response;
-				console.log(data);
+				currentPlayer = Player(name);
+
+				console.log(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
+
+				enviar(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
 			}
 		}
+		async function enviar(name, points, active) {
+			objeto = {"username": name, "points": points, "active": active};
+			console.log(objeto);
+			const response = await fetch('http://localhost:5000/api/anadir', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(objeto)
+			});
+		
+			const data = await response.json();
+			console.log(data);
+		}
+
 		//
 		function obtenerNombres(){
 			$.ajax({ 
@@ -80,22 +79,6 @@ $(document).ready(function(){
 			});
 		}
 		
-		function envioNombre(objeto_js) {
-			$.ajax({
-				url: "scripts/db.json",
-				method: "PUT",
-				data: JSON.stringify(objeto_js),
-				contentType: "application/json", // Especifica el tipo de contenido
-				dataType: "json", // La respuesta será interpretada como JSON
-				success: function(response) {
-					console.log(response);
-		
-				},
-				error: function(xhr, status, error) {
-					console.log(`Error: ${xhr.status} - ${error}`);
-				}
-			});
-		}
 
 	}
 	
