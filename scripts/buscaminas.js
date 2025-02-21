@@ -62,22 +62,6 @@ $(document).ready(function(){
 			console.log(data);
 		}
 
-		//
-		function obtenerNombres(){
-			$.ajax({ 
-				//
-				url: "scripts/db.json", 
-				method: "GET", 
-				dataType: "json", // Convierte la respuesta a objeto JSON 
-				success: function(data) { //200 o 201
-				console.log(data);
-				userNames = data;
-				}, 
-				error: function(xhr, status, error) { 
-				console.log(`Error: ${xhr.status} - ${error}`); 
-				} 
-			});
-		}
 		
 
 	}
@@ -88,21 +72,52 @@ $(document).ready(function(){
 		console.log(window.location.href);
 		console.log(window.location.hostname);
 		let win = false;
-		obtenerNombres();
+		//obtenerNombres();
+		crearTablero()
+		function crearTablero(){
+			const tablero = document.querySelector("#tablero");
+			tablero.classList = "tabla";
+			//$("#tablero")
+			for(let i= 0 ; i<5; i++){
+				const tr = document.createElement("tr");
+				tr.classList = "fila";
+				for(let j= 0 ; j<8; j++){
+					const td = document.createElement("td");
+					td.id = i+"+"+j;
+					td.classList = "celda";
+					//seleccionarMinar(td);
+					
+					td.addEventListener("click", (element) => {
+						celdaSeleccionada(element);
+					});
+					tr.appendChild(td);
+				}
+				
+				tablero.appendChild(tr);
+			}
+		}
+
+
+		function seleccionarMinar(){
+			//Posiciones aleatorias de 8*5 y devuelve true o false 
+		}
+
+
+		//Una vez geneadas las minas hay que poner los numeros por proximidad
+		function generarNumeros(){
+
+		}
+
+		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
+		function celdaSeleccionada(celda){
+			//Con un queryselector del id
+			
+		}
+
+
+		// Un metodo get para el array
 		function obtenerNombres(){
-			$.ajax({ 
-				//
-				url: "../scripts/players.json", 
-				method: "GET", 
-				dataType: "json", // Convierte la respuesta a objeto JSON 
-				success: function(data) { //200 o 201
-				console.log(data);
-				userNames = data;
-				}, 
-				error: function(xhr, status, error) { 
-				console.log(`Error: ${xhr.status} - ${error}`); 
-				} 
-			});
+			
 		}
 
 		// Código específico para página 2
