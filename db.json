@@ -8,5 +8,10 @@
         "username": "asd",
         "points": 0,
         "active": true
+    },
+    {
+        "username": "hgf",
+        "points": 0,
+        "active": true
     }
 ]

@@ -27,12 +27,11 @@ $(document).ready(function(){
 		console.log(window.location.pathname);
 
 		$("#bJugar").on("click", (e) => {
-			e.preventDefault()
-			console.log("me eejco");
+			e.preventDefault();
 			comprobar($("#iNombre").val());
-			
+
 			//console.log(currentPlayer);
-			window.location.assign("web/Juego.html");
+			//window.location.assign("web/Juego.html");
 			
 		})
 
