@@ -29,7 +29,7 @@ $(document).ready(function(){
 		$("#bJugar").on("click", (e) => {
 			e.preventDefault();
 			comprobar($("#iNombre").val());
-
+			
 			//console.log(currentPlayer);
 			//window.location.assign("web/Juego.html");
 			
