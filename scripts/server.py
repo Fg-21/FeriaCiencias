@@ -18,6 +18,10 @@ def añadir():
     array = darInfo()
     return  jsonify(array) #A devolver
 
+@app.get('/api/cargar')
+def cargar():
+    return jsonify(darInfo())
+
 def darInfo():
     try:
         read_jugadores = open(JSON_RUTA, "r")
@@ -52,8 +56,10 @@ def comprobaciones(array, objeto):
     # Jugador activo
     objeto["active"] = True
     for diccionario in array:
+        diccionario["active"] = False
         if diccionario["username"] == objeto["username"]:
             diccionario["points"] = 0
+            diccionario["active"] = True
             existe = True
     if (not existe):
         array.append(objeto)
