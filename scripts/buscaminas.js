@@ -71,8 +71,9 @@ $(document).ready(function(){
 		console.log(window.location.href);
 		console.log(window.location.hostname);
 		let win = false;
-		//obtenerNombres();
-		crearTablero()
+		
+		crearTablero();
+		getNombres();
 		function crearTablero(){
 			const tablero = document.querySelector("#tablero");
 			tablero.classList = "tabla";
@@ -84,23 +85,37 @@ $(document).ready(function(){
 					const td = document.createElement("td");
 					td.id = i+"+"+j;
 					td.classList = "celda";
-					//seleccionarMinar(td);
+					
 					
 					td.addEventListener("click", (element) => {
 						celdaSeleccionada(element);
 					});
 					tr.appendChild(td);
 				}
-				
 				tablero.appendChild(tr);
+				seleccionarMinar();
 			}
 		}
 
 
 		function seleccionarMinar(){
-			//Posiciones aleatorias de 8*5 y devuelve true o false 
+			//Posiciones aleatorias de 8*5 y devuelve true o false
+			const filas = 5; 
+    		const columnas = 8; 
+    		const numMinas = 25; 
+			
+			// Colocar  minas aleatoriamente
+			let minasColocadas = 0;
+			while (minasColocadas < numMinas) {
+				let fila = Math.floor(Math.random() * filas);
+				let columna = Math.floor(Math.random() * columnas);
+				
+				if ($('.'+fila+'+'+columna).classList !== "mina" ) { 
+					$('.'+fila+'+'+columna).classList = "mina" 
+					minasColocadas++;
+				}
+			}
 		}
-
 
 		//Una vez geneadas las minas hay que poner los numeros por proximidad
 		function generarNumeros(){
@@ -115,10 +130,24 @@ $(document).ready(function(){
 
 
 		// Un metodo get para el array
-		function obtenerNombres(){
+		
+		async function getNombres() {
+			
+			const response = await fetch('http://localhost:5000/api/cargar', {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },	
+			});
+		
+			const data = await response.json();
+			console.log(data);
+			crearRanking(data);
+		}
+
+		function crearRanking(datos){
 			
 		}
 
-		// Código específico para página 2
+	
 	}
+		
 });
