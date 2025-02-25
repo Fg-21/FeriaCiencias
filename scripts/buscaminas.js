@@ -31,7 +31,7 @@ $(document).ready(function(){
 			comprobar($("#iNombre").val());
 			
 			//console.log(currentPlayer);
-			//window.location.assign("web/Juego.html");
+			window.location.assign("web/Juego.html");
 			
 		})
 
@@ -71,9 +71,9 @@ $(document).ready(function(){
 		console.log(window.location.href);
 		console.log(window.location.hostname);
 		let win = false;
-		
-		crearTablero();
 		getNombres();
+		crearTablero();
+		generarNumeros();
 		function crearTablero(){
 			const tablero = document.querySelector("#tablero");
 			tablero.classList = "tabla";
@@ -83,7 +83,7 @@ $(document).ready(function(){
 				tr.classList = "fila";
 				for(let j= 0 ; j<8; j++){
 					const td = document.createElement("td");
-					td.id = i+"+"+j;
+					td.id = "c"+i+"_"+j;
 					td.classList = "celda";
 					
 					
@@ -93,8 +93,9 @@ $(document).ready(function(){
 					tr.appendChild(td);
 				}
 				tablero.appendChild(tr);
-				seleccionarMinar();
+				
 			}
+			seleccionarMinar();
 		}
 
 
@@ -110,8 +111,12 @@ $(document).ready(function(){
 				let fila = Math.floor(Math.random() * filas);
 				let columna = Math.floor(Math.random() * columnas);
 				
-				if ($('.'+fila+'+'+columna).classList !== "mina" ) { 
-					$('.'+fila+'+'+columna).classList = "mina" 
+				//celda = $(`#${fila}+${columna}`)
+				const td = document.querySelector(`#c${fila}_${columna}`)
+				console.log(td);
+				if (td.className !== "celda mina") { 
+					td.className = "celda mina";
+					console.log(fila, columna);
 					minasColocadas++;
 				}
 			}
@@ -119,7 +124,8 @@ $(document).ready(function(){
 
 		//Una vez geneadas las minas hay que poner los numeros por proximidad
 		function generarNumeros(){
-
+			minas = document.querySelectorAll(".mina");
+			console.log(minas);
 		}
 
 		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
@@ -133,10 +139,7 @@ $(document).ready(function(){
 		
 		async function getNombres() {
 			
-			const response = await fetch('http://localhost:5000/api/cargar', {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' },	
-			});
+			const response = await fetch('http://localhost:5000/api/cargar')
 		
 			const data = await response.json();
 			console.log(data);
@@ -144,7 +147,7 @@ $(document).ready(function(){
 		}
 
 		function crearRanking(datos){
-			
+
 		}
 
 	
