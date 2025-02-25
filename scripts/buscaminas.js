@@ -1,7 +1,9 @@
 $(document).ready(function(){
 	let userNames = [];
 	let currentPlayer;
-
+	document.addEventListener("contextmenu", (e) => {
+		e.preventDefault();
+	});
 
 	//Constructor for player
 	function Player(name){
@@ -70,6 +72,14 @@ $(document).ready(function(){
 		console.log(window.location.pathname);
 		console.log(window.location.href);
 		console.log(window.location.hostname);
+		const filas = 5; 
+    	const columnas = 8;
+		
+		let virtualTablero = new Array(5);
+		for (let i = 0; i < virtualTablero.length; i++) {
+    		virtualTablero[i] = new Array(8).fill(0);
+		}
+		console.log(virtualTablero);
 		let win = false;
 		getNombres();
 		crearTablero();
@@ -88,7 +98,7 @@ $(document).ready(function(){
 					
 					
 					td.addEventListener("click", (element) => {
-						celdaSeleccionada(element);
+						celdaSeleccionada(element.target);
 					});
 					tr.appendChild(td);
 				}
@@ -101,8 +111,7 @@ $(document).ready(function(){
 
 		function seleccionarMinar(){
 			//Posiciones aleatorias de 8*5 y devuelve true o false
-			const filas = 5; 
-    		const columnas = 8; 
+			 
     		const numMinas = 25; 
 			
 			// Colocar  minas aleatoriamente
@@ -114,8 +123,9 @@ $(document).ready(function(){
 				//celda = $(`#${fila}+${columna}`)
 				const td = document.querySelector(`#c${fila}_${columna}`)
 				console.log(td);
-				if (td.className !== "celda mina") { 
-					td.className = "celda mina";
+				if (/*td.className !== "celda mina" &&*/ virtualTablero[fila][columna] !== 10) { 
+					//td.className = "celda mina";
+					virtualTablero[fila][columna] = 10;
 					console.log(fila, columna);
 					minasColocadas++;
 				}
@@ -124,13 +134,43 @@ $(document).ready(function(){
 
 		//Una vez geneadas las minas hay que poner los numeros por proximidad
 		function generarNumeros(){
-			minas = document.querySelectorAll(".mina");
-			console.log(minas);
+			const filas = virtualTablero.length;
+			const columnas = virtualTablero[0].length;
+		
+			// Recorrer el tablero para encontrar minas (valor 10)
+			for (let i = 0; i < filas; i++) {
+				for (let j = 0; j < columnas; j++) {
+					if (virtualTablero[i][j] === 10) { 
+						
+						for (let x = -1; x <= 1; x++) {
+							for (let y = -1; y <= 1; y++) {
+								const nuevaFila = i + x;
+								const nuevaColumna = j + y;
+		
+								// Verificamos celdas adyacentes
+								if (nuevaFila >= 0 && nuevaFila < filas &&
+									nuevaColumna >= 0 && nuevaColumna < columnas &&
+									virtualTablero[nuevaFila][nuevaColumna] !== 10) {
+
+									virtualTablero[nuevaFila][nuevaColumna]++; 
+
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
 		function celdaSeleccionada(celda){
-			//Con un queryselector del id
+			console.log(celda);
+			let fila = celda.id[1];
+			let columna = celda.id[3];
+			console.log(fila, columna);
+			let valor = virtualTablero[fila][columna];
+			celda.classList = `celda ${valor}`;
+			celda.innerText = valor; 
 			
 		}
 
@@ -139,7 +179,7 @@ $(document).ready(function(){
 		
 		async function getNombres() {
 			
-			const response = await fetch('http://localhost:5000/api/cargar')
+			const response = await fetch('http://localhost:5000/api/cargar');
 		
 			const data = await response.json();
 			console.log(data);
