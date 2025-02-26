@@ -112,7 +112,7 @@ $(document).ready(function(){
 		function seleccionarMinar(){
 			//Posiciones aleatorias de 8*5 y devuelve true o false
 			 
-    		const numMinas = 25; 
+    		const numMinas = 5; 
 			
 			// Colocar  minas aleatoriamente
 			let minasColocadas = 0;
@@ -134,8 +134,6 @@ $(document).ready(function(){
 
 		//Una vez geneadas las minas hay que poner los numeros por proximidad
 		function generarNumeros(){
-			const filas = virtualTablero.length;
-			const columnas = virtualTablero[0].length;
 		
 			// Recorrer el tablero para encontrar minas (valor 10)
 			for (let i = 0; i < filas; i++) {
@@ -164,14 +162,39 @@ $(document).ready(function(){
 
 		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
 		function celdaSeleccionada(celda){
-			console.log(celda);
+
 			let fila = celda.id[1];
 			let columna = celda.id[3];
-			console.log(fila, columna);
+		
 			let valor = virtualTablero[fila][columna];
 			celda.classList = `celda ${valor}`;
 			celda.innerText = valor; 
+			console.log(valor)
+			if (valor === 10){
+				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
+			}else if (valor === 0){
+				ceroCelda(fila, columna);
+
+			}
 			
+		}
+		//Mostrar todos los ceros alrededor de uno pulsado
+		function ceroCelda(fila, columna){
+			console.log("entro");
+			for (let i = -1; i <= 1; i++) {
+				for (let j = -1; j <= 1; j++) {
+					let filaSuma = Number(fila)+i;
+					console.log (filaSuma)
+					let columnaSuma = Number(columna)+j; 
+					if ( filaSuma >= 0 && filaSuma < filas && columnaSuma >= 0 && columnaSuma < columnas) {
+						const id = `#c${filaSuma}_${columnaSuma}`;
+						const celda = document.querySelector(id);
+						console.log(celda);
+						console.log("tamo")
+						celdaSeleccionada(celda);
+					}
+				}
+			}
 		}
 
 
