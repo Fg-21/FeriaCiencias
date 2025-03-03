@@ -34,8 +34,7 @@ def darInfo():
         with open(JSON_RUTA, "w") as new_file:
             json.dump([], new_file, indent=4)  # Inicializa como lista vacía
         return []
-    #Extraigo el fragmento de codigo que permite modicar en python
-    # Devolvemos el objeto con notacion javascript  
+    
     
     
 
