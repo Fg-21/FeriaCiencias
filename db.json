@@ -7,11 +7,11 @@
     {
         "username": "asd",
         "points": 0,
-        "active": true
+        "active": false
     },
     {
         "username": "hgf",
         "points": 0,
-        "active": true
+        "active": false
     }
 ]
