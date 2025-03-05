@@ -33,7 +33,9 @@ $(document).ready(function(){
 			comprobar($("#iNombre").val());
 			
 			//console.log(currentPlayer);
-			window.location.assign("web/Juego.html");
+			setTimeout(() =>{
+				window.location.assign("web/Juego.html");
+			}, 500);//window.location.assign("web/Juego.html");
 			
 		})
 
@@ -100,6 +102,10 @@ $(document).ready(function(){
 					td.addEventListener("click", (element) => {
 						celdaSeleccionada(element.target);
 					});
+					td.addEventListener("contextmenu", (e) => {
+						e.preventDefault();
+						banderita(e.target);
+					});
 					tr.appendChild(td);
 				}
 				tablero.appendChild(tr);
@@ -107,7 +113,16 @@ $(document).ready(function(){
 			}
 			seleccionarMinar();
 		}
-
+		
+		function banderita(celda){
+			console.log("banderas");
+			console.log(celda.classList.value);
+			if(celda.classList.value ==="celda"){
+				celda.classList = "celda bandera";
+			}else if (celda.classList.value ==="celda bandera"){
+				celda.classList = "celda";
+			}
+		}
 
 		function seleccionarMinar(){
 			//Posiciones aleatorias de 8*5 y devuelve true o false
@@ -162,36 +177,51 @@ $(document).ready(function(){
 
 		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
 		function celdaSeleccionada(celda){
-
+			const id = celda.id;
 			let fila = celda.id[1];
 			let columna = celda.id[3];
-		
+			const selector = `#${id}`;
+			$(selector).off("click");
+			$(selector).off("contextmenu");
 			let valor = virtualTablero[fila][columna];
 			celda.classList = `celda ${valor}`;
 			celda.innerText = valor; 
 			console.log(valor)
+			
 			if (valor === 10){
 				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
+				alert("Has perdido");
+				const celdas = document.querySelectorAll(".celda");
+				console.log(celdas);
+				
+				//hacer un post con la puntuacion nueva
+				//calcularPuntacion(); este comprueba las clases bandera bien colocadas
+				//Mandar a la pagina main 
+
 			}else if (valor === 0){
+				//Descubre las celdas colindantes con valor ya que no seran minas
 				ceroCelda(fila, columna);
 
 			}
 			
 		}
+
 		//Mostrar todos los ceros alrededor de uno pulsado
 		function ceroCelda(fila, columna){
-			console.log("entro");
+
 			for (let i = -1; i <= 1; i++) {
 				for (let j = -1; j <= 1; j++) {
 					let filaSuma = Number(fila)+i;
-					console.log (filaSuma)
+					
 					let columnaSuma = Number(columna)+j; 
+					console.log (filaSuma, columnaSuma);
 					if ( filaSuma >= 0 && filaSuma < filas && columnaSuma >= 0 && columnaSuma < columnas) {
 						const id = `#c${filaSuma}_${columnaSuma}`;
 						const celda = document.querySelector(id);
 						console.log(celda);
-						console.log("tamo")
-						celdaSeleccionada(celda);
+						let valor = virtualTablero[filaSuma][columnaSuma];
+						celda.classList = `celda ${valor}`;
+						celda.innerText = valor; 
 					}
 				}
 			}

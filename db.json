@@ -2,7 +2,7 @@
     {
         "username": "asdgc",
         "points": 0,
-        "active": true
+        "active": false
     },
     {
         "username": "asd",
@@ -11,6 +11,16 @@
     },
     {
         "username": "hgf",
+        "points": 0,
+        "active": false
+    },
+    {
+        "username": "asopla",
+        "points": 0,
+        "active": true
+    },
+    {
+        "username": "a",
         "points": 0,
         "active": false
     }
