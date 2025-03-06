@@ -71,6 +71,21 @@ align-items: center;
     border-color: #faf3e0;
   }
 
+#cScore{
+    display: grid;
+    place-items: center;
+    background-color: #8fd59a;  
+    height: 30vh;
+    animation:slideDesdeArriba 1.5s ease-out;
+}
+
+#tScore{
+    font-size: 10vh;
+    color: #3f2002;
+    
+    text-shadow: 0px 6px 4px #50995b;
+}
+
 @keyframes slideDesdeArriba {
     0% {
       transform: translateY(-100%);
