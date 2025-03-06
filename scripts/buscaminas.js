@@ -76,7 +76,9 @@ $(document).ready(function(){
 		console.log(window.location.hostname);
 		const filas = 5; 
     	const columnas = 8;
-		
+		let timer;
+		let minutes = 0;
+		let seconds = 0;
 		let virtualTablero = new Array(5);
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
@@ -86,6 +88,8 @@ $(document).ready(function(){
 		getNombres();
 		crearTablero();
 		generarNumeros();
+		startTimer();
+
 		function crearTablero(){
 			const tablero = document.querySelector("#tablero");
 			tablero.classList = "tabla";
@@ -226,7 +230,36 @@ $(document).ready(function(){
 				}
 			}
 		}
+		
 
+		function startTimer() {
+			timer = setInterval(updateTimer, 1000);
+		}
+
+		function stopTimer() {
+			clearInterval(timer);
+		}
+
+		function updateTimer() {
+			seconds++;
+			if (seconds === 60) {
+				seconds = 0;
+				minutes++;
+			}
+			updateDisplay();
+		}
+
+		function updateDisplay() {
+			const display = document.querySelector("#dTiempo");
+			display.textContent = `${menorDiez(minutes)}:${menorDiez(seconds)}`;
+		}
+
+		function menorDiez(value) {
+			return value < 10 ? `0${value}` : value;
+		}
+
+
+		
 
 		// Un metodo get para el array
 		

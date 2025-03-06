@@ -1,27 +1,17 @@
 [
     {
-        "username": "asdgc",
-        "points": 0,
-        "active": false
-    },
-    {
-        "username": "asd",
-        "points": 0,
-        "active": false
-    },
-    {
-        "username": "hgf",
-        "points": 0,
-        "active": false
-    },
-    {
         "username": "asopla",
         "points": 0,
-        "active": true
+        "active": false
     },
     {
         "username": "a",
         "points": 0,
         "active": false
+    },
+    {
+        "username": "ajj",
+        "points": 0,
+        "active": true
     }
 ]
