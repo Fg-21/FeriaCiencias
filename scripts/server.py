@@ -22,6 +22,7 @@ def añadir():
 def cargar():
     return jsonify(darInfo())
 
+
 def darInfo():
     try:
         read_jugadores = open(JSON_RUTA, "r")
@@ -57,7 +58,6 @@ def comprobaciones(array, objeto):
     for diccionario in array:
         diccionario["active"] = False
         if diccionario["username"] == objeto["username"]:
-            diccionario["points"] = 0
             diccionario["active"] = True
             existe = True
     if (not existe):

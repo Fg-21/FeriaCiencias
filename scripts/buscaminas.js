@@ -20,7 +20,31 @@ $(document).ready(function(){
 		return {username, points, active, getName, getPoints, setPoints};
 	}
 
+	//function to check if the name exist
+	function comprobar(name){
+		if (name === "" || name === null){
+			alert("Introduce un nombre")
+		}else{
 
+			currentPlayer = Player(name);
+
+			console.log(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
+
+			enviar(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
+		}
+	}
+	async function enviar(name, points, active) {
+		objeto = {"username": name, "points": points, "active": active};
+		console.log(objeto);
+		const response = await fetch('http://localhost:5000/api/anadir', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(objeto)
+		});
+	
+		const data = await response.json();
+		console.log(data);
+	}
 
 
 
@@ -39,36 +63,14 @@ $(document).ready(function(){
 			
 		})
 
-		//function to check if the name exist
-		function comprobar(name){
-			if (name === "" || name === null){
-				alert("Introduce un nombre")
-			}else{
-
-				currentPlayer = Player(name);
-
-				console.log(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
-
-				enviar(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
-			}
-		}
-		async function enviar(name, points, active) {
-			objeto = {"username": name, "points": points, "active": active};
-			console.log(objeto);
-			const response = await fetch('http://localhost:5000/api/anadir', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(objeto)
-			});
-		
-			const data = await response.json();
-			console.log(data);
-		}
+	
 
 		
 
 	}
 	
+
+
 	// Funcionalidad para la página 2
 	if (window.location.pathname.includes('Juego.html')) {
 		console.log(window.location.pathname);
@@ -84,6 +86,7 @@ $(document).ready(function(){
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
 		}
+		
 		console.log(virtualTablero);
 		let win = false;
 		getNombres();
@@ -202,17 +205,22 @@ $(document).ready(function(){
 				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
 				alert("Has perdido");
 				stopTimer();
-				
+				const imagen = document.createElement("img");
+				celda.innerText = ""; 
+				imagen.src= "../img/mina.jpg";
 				
 				//hacer un post con la puntuacion nueva
 				//pasarle el tiempo, este comprueba las clases bandera bien colocadas
-				//currentPlayer.setPoints(calcularPuntacion());// y hacer POST
+				
 				let puntos = calcularPuntacion();
+				
 				const puntuacion = document.querySelector("#puntos");
 				console.log(puntuacion);
 				puntuacion.innerHTML = puntos;
+				console.log(currentPlayer);
+				currentPlayer.points = puntos;// y hacer POST
 				//Mandar a la pagina main 
-
+				setTimeout(enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active), 5000);
 			}else if (valor === 0){
 				//Descubre las celdas colindantes con valor ya que no seran minas
 				ceroCelda(fila, columna);
@@ -266,9 +274,9 @@ $(document).ready(function(){
 			nuevaPuntuacion -= (seconds/10)*5;
 
 			if (cont >= 8){
-				nuevaPuntuacion = 100;
+				nuevaPuntuacion += 100;
 			}
-			
+			nuevaPuntuacion += (contBanderas)*5;
 			console.log(nuevaPuntuacion);
 			return nuevaPuntuacion;
 		}
@@ -301,7 +309,18 @@ $(document).ready(function(){
 			return value < 10 ? `0${value}` : value;
 		}
 		
-
+		async function enviarPuntos(name, points, active) {
+			objeto = {"username": name, "points": points, "active": active};
+			console.log(objeto);
+			const response = await fetch('http://localhost:5000/api/anadir', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(objeto)
+			});
+		
+			const data = await response.json();
+			console.log(data);
+		}
 		
 
 		// Un metodo get para el array
@@ -313,6 +332,7 @@ $(document).ready(function(){
 			const data = await response.json();
 			console.log(data);
 			crearRanking(/*data*/);
+
 		}
 
 		function crearRanking(datos){
@@ -357,6 +377,9 @@ $(document).ready(function(){
 				pointsCell.className = "celdaleaderboard";
                 
                 table.appendChild(tr);
+				if(item.active){
+					currentPlayer = item;
+				}
             });
 		}
 

@@ -13,5 +13,10 @@
         "username": "ajj",
         "points": 0,
         "active": true
+    },
+    {
+        "username": "aaaaaaaaaaaaaaaa",
+        "points": 0,
+        "active": false
     }
 ]
