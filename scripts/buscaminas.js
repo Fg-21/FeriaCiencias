@@ -318,23 +318,24 @@ $(document).ready(function(){
 			table.id = "leaderboard";
 			datosOrdenados.forEach((item, index) => {
                 const tr = document.createElement("tr");
-				tr.id = "filaleaderboard";
+				tr.className = "filaleaderboard";
                 
                 const rankCell = document.createElement("td");
                 rankCell.textContent = index + 1;
-				//rankCell.className = "";
+				rankCell.className = "celdaleaderboard";
                 tr.appendChild(rankCell);
 
                
                 const usernameCell = document.createElement("td");
                 usernameCell.textContent = item.username;
+				usernameCell.className = "celdaleaderboard";
                 tr.appendChild(usernameCell);
 
                 
                 const pointsCell = document.createElement("td");
                 pointsCell.textContent = item.points;
                 tr.appendChild(pointsCell);
-
+				pointsCell.className = "celdaleaderboard";
                 
                 table.appendChild(tr);
             });
