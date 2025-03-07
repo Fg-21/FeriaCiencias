@@ -206,9 +206,11 @@ $(document).ready(function(){
 				
 				//hacer un post con la puntuacion nueva
 				//pasarle el tiempo, este comprueba las clases bandera bien colocadas
-				currentPlayer.setPoints(calcularPuntacion());// y hacer POST
-				const puntuacion = document.querySelector(".Puntuacion");
-				puntuacion.innerText=calcularPuntacion();
+				//currentPlayer.setPoints(calcularPuntacion());// y hacer POST
+				let puntos = calcularPuntacion();
+				const puntuacion = document.querySelector("#puntos");
+				console.log(puntuacion);
+				puntuacion.innerHTML = puntos;
 				//Mandar a la pagina main 
 
 			}else if (valor === 0){
@@ -333,7 +335,6 @@ $(document).ready(function(){
 			]
 			datosOrdenados = datos.sort((a, b) => b.points - a.points);
 			const table = document.querySelector("#tableroHS");
-			table.id = "leaderboard";
 			datosOrdenados.forEach((item, index) => {
                 const tr = document.createElement("tr");
 				tr.className = "filaleaderboard";
