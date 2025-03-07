@@ -121,11 +121,14 @@ $(document).ready(function(){
 		
 		function banderita(celda){
 			console.log("banderas");
+			
 			console.log(celda.classList.value);
 			if(celda.classList.value ==="celda"){
 				celda.classList = "celda bandera";
+				contBanderas++;
 			}else if (celda.classList.value ==="celda bandera"){
 				celda.classList = "celda";
+				contBanderas--;
 			}
 			if (contBanderas >= 8) {
 				calcularPuntacion();
@@ -204,7 +207,7 @@ $(document).ready(function(){
 				
 				//hacer un post con la puntuacion nueva
 				calcularPuntacion();//pasarle el tiempo, este comprueba las clases bandera bien colocadas
-				//currentPlayer.setPoints(calcularPuntuacion()); y hacer POST
+				currentPlayer.setPoints(calcularPuntuacion());// y hacer POST
 				//Mandar a la pagina main 
 
 			}else if (valor === 0){
