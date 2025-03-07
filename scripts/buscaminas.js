@@ -138,7 +138,7 @@ $(document).ready(function(){
 		function seleccionarMinar(){
 			//Posiciones aleatorias de 8*5 y devuelve true o false
 			 
-    		const numMinas = 5; 
+    		const numMinas = 6; 
 			
 			// Colocar  minas aleatoriamente
 			let minasColocadas = 0;

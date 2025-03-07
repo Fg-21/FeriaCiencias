@@ -97,23 +97,20 @@ align-items: center;
 }
 
 #cJuego{
+    margin-top: 5vh;
     display: grid;
-    place-items: center;
+    place-items:start;
+    justify-items:center;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2dvh;
 }
 
 #cTablero{
     background-color: #50995b;
-    margin-top: 5vh;
     border-radius: 5px;
-    grid-column: 2/3;
+    grid-column: 2;
+    grid-row: 1;
     animation: apareceTablero 1s ease-in;
-    
-}
-
-#cHighScores{
-    grid-column: 3/4;
 }
 
 #tablero{
@@ -123,20 +120,45 @@ align-items: center;
     height: 60vh;
 }
 
-td, th{
+.celda, .fila{
     border: 0.5dvh, solid, #8fd59a;
     text-align: center;
     color: white;
-    font-family:"Englebert" ;
+    font-family:"Englebert";
 }
 
-td:hover{
+.celda:hover{
     background-color: #8fd59a;
 }
 
-tr{
+.fila{
     height: 5vh;
 }
+
+#cHighScores{
+    grid-column: 3;
+    grid-row: 1;
+    font-family: "Englebert";
+    color: #3f2002;
+}
+
+#leaderboard{
+    background-color: burlywood;
+    border-radius: 5px;
+    animation: apareceTablero 1s ease-in;
+}
+
+
+
+#cTableroHighScore{
+    background-color: rgb(131, 97, 52);
+}
+#cTuPuntuacion{
+    grid-column: 1;
+    grid-row: 1;
+}
+
+
 
 @keyframes slideDesdeArriba {
     0% {
