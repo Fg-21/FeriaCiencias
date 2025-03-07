@@ -6,18 +6,27 @@
     <title>Buscaminas Play</title>
     <link rel="icon" type="image/png" href="../img/banderita.png">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Englebert&family=Oswald:wght@200..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src=https://code.jquery.com/jquery-3.7.1.min.js></script>
     <script type="text/javascript" src="../scripts/buscaminas.js"></script>
 </head>
 <body>
-    <div id="cScore">
-        <h1 id="tScore">Puntuación: </h1>
-        <p class="Puntuacion"></p>
+    <div id="cTiempo">
+        <h2 id="tTiempo">Tiempo: 
+            <span id="dTiempo">
+                <!--TO DO: Asignar ek tiempo restante en JS, debe empezar en 5 minutos-->
+            </span>
+        </h2>
     </div>
 
 <div id="cJuego">
     <div id="cTablero">
-        <table id="tablero" border="1px">
+        <table id="tablero">
             <!--TO DO: Crear tablero con js es 5 de alto por 8 de largo -->
             <tbody>
             </tbody>
@@ -35,14 +44,6 @@
             </table>
         </div>
     </div>
-
-    <div id="cTiempo">
-        <h2 id="tTiempo">Tiempo: 
-            <p id="dTiempo">
-                <!--TO DO: Asignar ek tiempo restante en JS, debe empezar en 5 minutos-->
-            </p>
-        </h2>
-    </div>
 </div> 
 
     <!--CÓDIGO HTML PARA CUANDO EL USUARIO GANE O PIERDA-->
@@ -58,18 +59,6 @@
         <h2>Tu Puntuación
             <p class="Puntuacion"></p>
         </h2>
-    </div>
-
-    <div id="cHighScores">
-        <h2 id="tHightScores">HighScores</h2>
-        <div id="cTableroHighScore">
-            <table id="tableroHS">
-                <tbody>
-                    <!--TO DO: Insertar tabla de Récords con JS, debe aparecer el nombre del usuario actual 
-                    si supera las puntuaciones de los otros y su puntuación. La tabla contempla los 10 primeros jugadores-->
-                </tbody>
-            </table>
-        </div>
     </div>
 
     <div id="cBotonVolver">

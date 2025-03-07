@@ -71,19 +71,71 @@ align-items: center;
     border-color: #faf3e0;
   }
 
-#cScore{
-    display: grid;
-    place-items: center;
+#cTiempo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #8fd59a;  
-    height: 30vh;
+    height: 20vh;
     animation:slideDesdeArriba 1.5s ease-out;
+    margin: 0;
 }
 
-#tScore{
+#tTiempo{
     font-size: 10vh;
-    color: #3f2002;
-    
+    color: white;
+    font-family: "Sour Gummy";
     text-shadow: 0px 6px 4px #50995b;
+    margin: 0;
+}
+
+#dTiempo{
+    font-size: 10vh;
+    color: white;
+    font-family: "Sour Gummy";
+    text-shadow: 0px 6px 4px #50995b;
+}
+
+#cJuego{
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2dvh;
+}
+
+#cTablero{
+    background-color: #50995b;
+    margin-top: 5vh;
+    border-radius: 5px;
+    grid-column: 2/3;
+    animation: apareceTablero 1s ease-in;
+    
+}
+
+#cHighScores{
+    grid-column: 3/4;
+}
+
+#tablero{
+    border-collapse:collapse;
+    table-layout: fixed;
+    width: 100dvh;
+    height: 60vh;
+}
+
+td, th{
+    border: 0.5dvh, solid, #8fd59a;
+    text-align: center;
+    color: white;
+    font-family:"Englebert" ;
+}
+
+td:hover{
+    background-color: #8fd59a;
+}
+
+tr{
+    height: 5vh;
 }
 
 @keyframes slideDesdeArriba {
@@ -111,6 +163,16 @@ align-items: center;
 
   @keyframes aparecer{
     to{
+        opacity: 1;
+    }
+  }
+
+  @keyframes apareceTablero {
+    0%{
+        opacity: 0;
+    }
+
+    100%{
         opacity: 1;
     }
   }
