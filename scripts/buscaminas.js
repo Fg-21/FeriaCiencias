@@ -87,6 +87,7 @@ $(document).ready(function(){
 		console.log(virtualTablero);
 		let win = false;
 		getNombres();
+		crearRanking(/*data*/);
 		crearTablero();
 		generarNumeros();
 		startTimer();
