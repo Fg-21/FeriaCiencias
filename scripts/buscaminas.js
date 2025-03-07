@@ -312,26 +312,28 @@ $(document).ready(function(){
 		function crearRanking(datos){
 			datosOrdenados = datos.sort((a, b) => b.points - a.points);
 			const table = document.querySelector("#tableroHS");
+			table.id = "leaderboard";
 			datosOrdenados.forEach((item, index) => {
-                const row = document.createElement("tr");
-
+                const tr = document.createElement("tr");
+				tr.id = "filaleaderboard";
                 
                 const rankCell = document.createElement("td");
                 rankCell.textContent = index + 1;
-                row.appendChild(rankCell);
+				//rankCell.className = "";
+                tr.appendChild(rankCell);
 
                
                 const usernameCell = document.createElement("td");
                 usernameCell.textContent = item.username;
-                row.appendChild(usernameCell);
+                tr.appendChild(usernameCell);
 
                 
                 const pointsCell = document.createElement("td");
                 pointsCell.textContent = item.points;
-                row.appendChild(pointsCell);
+                tr.appendChild(pointsCell);
 
                 
-                table.appendChild(row);
+                table.appendChild(tr);
             });
 		}
 
