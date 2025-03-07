@@ -309,10 +309,27 @@ $(document).ready(function(){
 		
 			const data = await response.json();
 			console.log(data);
-			crearRanking(data);
+			crearRanking(/*data*/);
 		}
 
 		function crearRanking(datos){
+			datos = [
+				{
+					"username": "asopla",
+					"points": 0,
+					"active": false
+				},
+				{
+					"username": "a",
+					"points": 0,
+					"active": false
+				},
+				{
+					"username": "ajj",
+					"points": 0,
+					"active": true
+				}
+			]
 			datosOrdenados = datos.sort((a, b) => b.points - a.points);
 			const table = document.querySelector("#tableroHS");
 			table.id = "leaderboard";
