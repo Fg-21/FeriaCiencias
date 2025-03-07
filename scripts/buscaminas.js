@@ -79,8 +79,6 @@ $(document).ready(function(){
 		let timer;
 		let minutes = 0;
 		let seconds = 0;
-		let minutoFinal;
-		let segundoFinal;
 		let virtualTablero = new Array(5);
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
@@ -203,6 +201,7 @@ $(document).ready(function(){
 				
 				//hacer un post con la puntuacion nueva
 				//calcularPuntacion();pasarle el tiempo, este comprueba las clases bandera bien colocadas
+				//currentPlayer.setPoints(calcularPuntuacion()); y hacer POST
 				//Mandar a la pagina main 
 
 			}else if (valor === 0){
@@ -234,16 +233,22 @@ $(document).ready(function(){
 			}
 		}
 		
+		function calcularPuntacion(){
+			let nuevaPuntuacion = 0;
+			segundoFinal;
+			minutoFinal;
+			
+			return nuevaPuntuacion;
+		}
 
 		function startTimer() {
 			timer = setInterval(updateTimer, 1000);
 		}
 
 		function stopTimer() {
-			console.log("stop");
-			segundoFinal = seconds;
-			minutoFinal = minutes;
+			console.log("stop", segundoFinal, minutoFinal);		
 			clearInterval(timer);
+			console.log(seconds, minutes);
 		}
 
 		function updateTimer() {
@@ -279,7 +284,29 @@ $(document).ready(function(){
 		}
 
 		function crearRanking(datos){
+			datosOrdenados = datos.sort((a, b) => b.points - a.points);
+			const table = document.querySelector("#tableroHS");
+			datosOrdenados.forEach((item, index) => {
+                const row = document.createElement("tr");
 
+                
+                const rankCell = document.createElement("td");
+                rankCell.textContent = index + 1;
+                row.appendChild(rankCell);
+
+               
+                const usernameCell = document.createElement("td");
+                usernameCell.textContent = item.username;
+                row.appendChild(usernameCell);
+
+                
+                const pointsCell = document.createElement("td");
+                pointsCell.textContent = item.points;
+                row.appendChild(pointsCell);
+
+                
+                table.appendChild(row);
+            });
 		}
 
 	
