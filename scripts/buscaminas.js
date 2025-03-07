@@ -79,6 +79,8 @@ $(document).ready(function(){
 		let timer;
 		let minutes = 0;
 		let seconds = 0;
+		let minutoFinal;
+		let segundoFinal;
 		let virtualTablero = new Array(5);
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
@@ -195,11 +197,12 @@ $(document).ready(function(){
 			if (valor === 10){
 				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
 				alert("Has perdido");
+				stopTimer();
 				const celdas = document.querySelectorAll(".celda");
 				console.log(celdas);
 				
 				//hacer un post con la puntuacion nueva
-				//calcularPuntacion(); este comprueba las clases bandera bien colocadas
+				//calcularPuntacion();pasarle el tiempo, este comprueba las clases bandera bien colocadas
 				//Mandar a la pagina main 
 
 			}else if (valor === 0){
@@ -237,6 +240,9 @@ $(document).ready(function(){
 		}
 
 		function stopTimer() {
+			console.log("stop");
+			segundoFinal = seconds;
+			minutoFinal = minutes;
 			clearInterval(timer);
 		}
 
@@ -257,7 +263,7 @@ $(document).ready(function(){
 		function menorDiez(value) {
 			return value < 10 ? `0${value}` : value;
 		}
-
+		
 
 		
 
