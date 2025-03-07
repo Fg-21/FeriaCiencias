@@ -79,6 +79,7 @@ $(document).ready(function(){
 		let timer;
 		let minutes = 0;
 		let seconds = 0;
+		let contBanderas = 0;
 		let virtualTablero = new Array(5);
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
@@ -125,6 +126,9 @@ $(document).ready(function(){
 				celda.classList = "celda bandera";
 			}else if (celda.classList.value ==="celda bandera"){
 				celda.classList = "celda";
+			}
+			if (contBanderas >= 8) {
+				calcularPuntacion();
 			}
 		}
 
@@ -196,11 +200,10 @@ $(document).ready(function(){
 				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
 				alert("Has perdido");
 				stopTimer();
-				const celdas = document.querySelectorAll(".celda");
-				console.log(celdas);
+				
 				
 				//hacer un post con la puntuacion nueva
-				//calcularPuntacion();pasarle el tiempo, este comprueba las clases bandera bien colocadas
+				calcularPuntacion();//pasarle el tiempo, este comprueba las clases bandera bien colocadas
 				//currentPlayer.setPoints(calcularPuntuacion()); y hacer POST
 				//Mandar a la pagina main 
 
@@ -235,9 +238,29 @@ $(document).ready(function(){
 		
 		function calcularPuntacion(){
 			let nuevaPuntuacion = 0;
-			segundoFinal;
-			minutoFinal;
+			const celdas = document.querySelectorAll(".bandera");
+			let columna = 0;
+			let fila = 0;
+			let valor = 0;
+			let cont = 0;
+			celdas.forEach(celda => {
+				fila = celda.id[1];
+			 	columna = celda.id[3];
+				valor = virtualTablero[fila][columna];
+				if (valor === 10){
+					nuevaPuntuacion += 5;
+					cont++;
+				}
+			});
+
+			seconds += minutes/60;
+			nuevaPuntuacion -= (seconds/10)*5;
+
+			if (cont >= 8){
+				nuevaPuntuacion = 100;
+			}
 			
+			console.log(nuevaPuntuacion);
 			return nuevaPuntuacion;
 		}
 
@@ -246,7 +269,7 @@ $(document).ready(function(){
 		}
 
 		function stopTimer() {
-			console.log("stop", segundoFinal, minutoFinal);		
+			console.log("stop");		
 			clearInterval(timer);
 			console.log(seconds, minutes);
 		}
