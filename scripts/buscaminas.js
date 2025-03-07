@@ -125,14 +125,12 @@ $(document).ready(function(){
 			console.log(celda.classList.value);
 			if(celda.classList.value ==="celda"){
 				celda.classList = "celda bandera";
-				contBanderas++;
+
 			}else if (celda.classList.value ==="celda bandera"){
 				celda.classList = "celda";
-				contBanderas--;
+				
 			}
-			if (contBanderas >= 8) {
-				calcularPuntacion();
-			}
+			
 		}
 
 		function seleccionarMinar(){
@@ -195,10 +193,10 @@ $(document).ready(function(){
 			$(selector).off("click");
 			$(selector).off("contextmenu");
 			let valor = virtualTablero[fila][columna];
-			celda.classList = `celda ${valor}`;
+			celda.classList = `celda ${valor} descubierta`;
 			celda.innerText = valor; 
 			console.log(valor)
-			
+			contBanderas++;
 			if (valor === 10){
 				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
 				alert("Has perdido");
@@ -206,16 +204,20 @@ $(document).ready(function(){
 				
 				
 				//hacer un post con la puntuacion nueva
-				calcularPuntacion();//pasarle el tiempo, este comprueba las clases bandera bien colocadas
-				currentPlayer.setPoints(calcularPuntuacion());// y hacer POST
+				//pasarle el tiempo, este comprueba las clases bandera bien colocadas
+				currentPlayer.setPoints(calcularPuntacion());// y hacer POST
+				const puntuacion = document.querySelector(".Puntuacion");
+				puntuacion.innerText=calcularPuntacion();
 				//Mandar a la pagina main 
 
 			}else if (valor === 0){
 				//Descubre las celdas colindantes con valor ya que no seran minas
 				ceroCelda(fila, columna);
-
+				
 			}
-			
+			if(contBanderas >= 34){
+				calcularPuntacion();
+			}
 		}
 
 		//Mostrar todos los ceros alrededor de uno pulsado
@@ -232,6 +234,7 @@ $(document).ready(function(){
 						const celda = document.querySelector(id);
 						console.log(celda);
 						let valor = virtualTablero[filaSuma][columnaSuma];
+						contBanderas++;
 						celda.classList = `celda ${valor}`;
 						celda.innerText = valor; 
 					}
@@ -315,23 +318,24 @@ $(document).ready(function(){
 			table.id = "leaderboard";
 			datosOrdenados.forEach((item, index) => {
                 const tr = document.createElement("tr");
-				tr.id = "filaleaderboard";
+				tr.className = "filaleaderboard";
                 
                 const rankCell = document.createElement("td");
                 rankCell.textContent = index + 1;
-				//rankCell.className = "";
+				rankCell.className = "celdaleaderboard";
                 tr.appendChild(rankCell);
 
                
                 const usernameCell = document.createElement("td");
                 usernameCell.textContent = item.username;
+				usernameCell.className = "celdaleaderboard";
                 tr.appendChild(usernameCell);
 
                 
                 const pointsCell = document.createElement("td");
                 pointsCell.textContent = item.points;
                 tr.appendChild(pointsCell);
-
+				pointsCell.className = "celdaleaderboard";
                 
                 table.appendChild(tr);
             });
