@@ -31,6 +31,10 @@ $(document).ready(function(){
 			console.log(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
 
 			enviar(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
+
+			setTimeout(() =>{
+				window.location.assign("web/Juego.html");
+			}, 500);
 		}
 	}
 	async function enviar(name, points, active) {
@@ -57,9 +61,7 @@ $(document).ready(function(){
 			comprobar($("#iNombre").val());
 			
 			//console.log(currentPlayer);
-			setTimeout(() =>{
-				window.location.assign("web/Juego.html");
-			}, 500);//window.location.assign("web/Juego.html");
+			//window.location.assign("web/Juego.html");
 			
 		})
 
@@ -90,7 +92,6 @@ $(document).ready(function(){
 		console.log(virtualTablero);
 		let win = false;
 		getNombres();
-		crearRanking(/*data*/);
 		crearTablero();
 		generarNumeros();
 		startTimer();
@@ -215,12 +216,14 @@ $(document).ready(function(){
 				let puntos = calcularPuntacion();
 				
 				const puntuacion = document.querySelector("#puntos");
-				console.log(puntuacion);
 				puntuacion.innerHTML = puntos;
-				console.log(currentPlayer);
+				
 				currentPlayer.points = puntos;// y hacer POST
+				console.log(currentPlayer);
 				//Mandar a la pagina main 
-				setTimeout(enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active), 5000);
+				setTimeout(() =>{
+					enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active)
+				}, 5000);
 			}else if (valor === 0){
 				//Descubre las celdas colindantes con valor ya que no seran minas
 				ceroCelda(fila, columna);
@@ -331,28 +334,12 @@ $(document).ready(function(){
 		
 			const data = await response.json();
 			console.log(data);
-			crearRanking(/*data*/);
+			crearRanking(data);
 
 		}
 
 		function crearRanking(datos){
-			datos = [
-				{
-					"username": "asopla",
-					"points": 0,
-					"active": false
-				},
-				{
-					"username": "a",
-					"points": 0,
-					"active": false
-				},
-				{
-					"username": "ajj",
-					"points": 0,
-					"active": true
-				}
-			]
+			let datosOrdenados;
 			datosOrdenados = datos.sort((a, b) => b.points - a.points);
 			const table = document.querySelector("#tableroHS");
 			datosOrdenados.forEach((item, index) => {

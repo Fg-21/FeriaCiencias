@@ -58,6 +58,7 @@ def comprobaciones(array, objeto):
     for diccionario in array:
         diccionario["active"] = False
         if diccionario["username"] == objeto["username"]:
+            diccionario["points"] = objeto["points"]
             diccionario["active"] = True
             existe = True
     if (not existe):
