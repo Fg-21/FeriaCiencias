@@ -88,14 +88,29 @@ $(document).ready(function(){
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
 		}
-		
+		$("#botonVolver").hide();
 		console.log(virtualTablero);
-		let win = false;
+		let end = false;
 		getNombres();
 		crearTablero();
 		generarNumeros();
 		startTimer();
+		function auxClick(element)  {
+			celdaSeleccionada(element.target);
+		}
 
+
+		function auxDroite(e) {
+			e.preventDefault();
+			banderita(e);
+		}
+
+		function volver(){
+			$("#botonVolver").show();
+			$("#botonVolver").on("click", () =>{
+				window.location.assign("../Index.html");
+			});
+		}
 		function crearTablero(){
 			const tablero = document.querySelector("#tablero");
 			tablero.classList = "tabla";
@@ -109,13 +124,9 @@ $(document).ready(function(){
 					td.classList = "celda";
 					
 					
-					td.addEventListener("click", (element) => {
-						celdaSeleccionada(element.target);
-					});
-					td.addEventListener("contextmenu", (e) => {
-						e.preventDefault();
-						banderita(e.target);
-					});
+					td.addEventListener("click", auxClick);
+					td.addEventListener("contextmenu", auxDroite);
+
 					tr.appendChild(td);
 				}
 				tablero.appendChild(tr);
@@ -191,46 +202,59 @@ $(document).ready(function(){
 
 		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
 		function celdaSeleccionada(celda){
+			console.log(celda);
 			const id = celda.id;
 			let fila = celda.id[1];
 			let columna = celda.id[3];
 			const selector = `#${id}`;
-			$(selector).off("click");
-			$(selector).off("contextmenu");
+			celda.removeEventListener("click", auxClick);
+			celda.removeEventListener("contextmenu", auxDroite);
 			let valor = virtualTablero[fila][columna];
 			celda.classList = `celda ${valor} descubierta`;
 			celda.innerText = valor; 
 			console.log(valor)
 			contBanderas++;
-			if (valor === 10){
-				//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
-				alert("Has perdido");
-				stopTimer();
-				const imagen = document.createElement("img");
-				celda.innerText = ""; 
-				imagen.src= "../img/mina.jpg";
-				
-				//hacer un post con la puntuacion nueva
-				//pasarle el tiempo, este comprueba las clases bandera bien colocadas
-				
-				let puntos = calcularPuntacion();
-				
-				const puntuacion = document.querySelector("#puntos");
-				puntuacion.innerHTML = puntos;
-				
-				currentPlayer.points = puntos;// y hacer POST
-				console.log(currentPlayer);
-				//Mandar a la pagina main 
-				setTimeout(() =>{
-					enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active)
-				}, 5000);
-			}else if (valor === 0){
-				//Descubre las celdas colindantes con valor ya que no seran minas
-				ceroCelda(fila, columna);
-				
-			}
-			if(contBanderas >= 34){
-				calcularPuntacion();
+			console.log(end);
+			if(!end){
+				if (valor === 10){
+					//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
+					end = true;
+					alert("Has perdido");
+					stopTimer();
+					const imagen = document.createElement("img");
+					celda.innerText = ""; 
+					imagen.src= "../img/mina.jpg";
+					
+					volver();
+					//Vamo a bloquear todas las casillas
+					const celdas = document.querySelectorAll(".celda");
+					celdas.forEach(element => {
+						console.log(element)
+						celdaSeleccionada(element);
+					});
+					//hacer un post con la puntuacion nueva
+					//pasarle el tiempo, este comprueba las clases bandera bien colocadas
+					
+					let puntos = calcularPuntacion();
+					
+					const puntuacion = document.querySelector("#puntos");
+					puntuacion.innerHTML = puntos;
+					
+					currentPlayer.points = puntos;// y hacer POST
+					console.log(currentPlayer);
+					//Mandar a la pagina main 
+					setTimeout(() =>{
+						enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active)
+					}, 5000);
+				}else if (valor === 0){
+					//Descubre las celdas colindantes con valor ya que no seran minas
+					ceroCelda(fila, columna);
+					
+				}
+				if(contBanderas >= 34){
+					calcularPuntacion();
+					end = true;
+				}
 			}
 		}
 
