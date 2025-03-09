@@ -184,6 +184,46 @@ align-items: center;
     padding-bottom: 1vh;
 }
 
+#cMensaje{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+#tMensaje{
+    font-family: "Englebert";
+    color: #3f2002;
+}
+
+#cBotonVolver{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+#botonVolver{
+    width: 20dvh;
+    max-width: 50%;
+    height: 7.5dvh;
+    max-height: 30%;
+    font-family: "Englebert";
+    opacity: 0;
+    animation: aparecer 1s ease-in 2s forwards;
+    background-color: #4889b5;
+    border: 0.5vh solid #faf3e0;
+    
+    border-radius: 10dvb;
+    color: white;
+    font-size: larger;
+    font-weight: bold;
+    transition: background-color 0.5s, color 0.5s, border-color 0.5s ease-in-out;
+}
+
+#botonVolver:hover{
+background-color: #ed5d35;
+border: 0.5vh solid #3f2002;
+}
+
 @keyframes slideDesdeArriba {
     0% {
       transform: translateY(-100%);
@@ -195,7 +235,7 @@ align-items: center;
     }
   }
 
-  @keyframes slideDesdeAbajo {
+@keyframes slideDesdeAbajo {
     0%{
         transform: translateY(100%);
         opacity: 0;
@@ -207,7 +247,7 @@ align-items: center;
     }
   }
 
-  @keyframes apareceTablero {
+@keyframes apareceTablero {
     0%{
         opacity: 0;
     }
@@ -217,7 +257,13 @@ align-items: center;
     }
   }
 
-  @keyframes boton{
+@keyframes aparecer {
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes boton{
     0%{
         background-color: #75d383;
         color: #3f2002;
@@ -229,6 +275,4 @@ align-items: center;
     color: white;
     border-color: white;
     }
-  }
-
-  
+}
