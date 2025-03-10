@@ -32,9 +32,7 @@ $(document).ready(function(){
 
 			enviar(currentPlayer.getName(), currentPlayer.getPoints(), currentPlayer.active);
 
-			setTimeout(() =>{
-				window.location.assign("web/Juego.html");
-			}, 500);
+			
 		}
 	}
 	async function enviar(name, points, active) {
@@ -48,6 +46,8 @@ $(document).ready(function(){
 	
 		const data = await response.json();
 		console.log(data);
+		window.location.assign("web/Juego.html");
+		
 	}
 
 
@@ -102,13 +102,14 @@ $(document).ready(function(){
 
 		function auxDroite(e) {
 			e.preventDefault();
-			banderita(e);
+			banderita(e.target);
 		}
 
 		function volver(){
 			$("#botonVolver").show();
 			$("#botonVolver").on("click", () =>{
-				window.location.assign("../Index.html");
+				enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active);
+				
 			});
 		}
 		function crearTablero(){
@@ -137,15 +138,19 @@ $(document).ready(function(){
 		
 		function banderita(celda){
 			console.log("banderas");
-			const imagen = document.createElement("img");
 			celda.innerText = ""; 
 					
 			console.log(celda.classList.value);
-			if(celda.classList ==="celda"){
-				celda.classList = "celda bandera";
-				imagen.src= "../img/bandera.jpg";
-			}else if (celda.classList ==="celda bandera"){
-				celda.classList = "celda";
+			if(celda.classList.value === "celda"){
+				celda.classList.value = "celda bandera";
+				const imagen = document.createElement("img");
+       			imagen.src = "../img/banderita.png"; 
+        		imagen.alt = "Bandera"; 
+        		imagen.style.width = "20px"; 
+        		imagen.style.height = "20px";
+        		celda.appendChild(imagen);
+			}else if (celda.classList.value ==="celda bandera"){
+				celda.classList.value = "celda";
 				
 			}
 			
@@ -204,19 +209,19 @@ $(document).ready(function(){
 
 		//Coge el id de la celda y comprueba que habia en esa casilla despues se pone en el html
 		function celdaSeleccionada(celda){
-			console.log(celda);
-			const id = celda.id;
+			
+			//const id = celda.id;
 			let fila = celda.id[1];
 			let columna = celda.id[3];
-			const selector = `#${id}`;
+			//const selector = `#${id}`;
 			celda.removeEventListener("click", auxClick);
 			celda.removeEventListener("contextmenu", auxDroite);
 			let valor = virtualTablero[fila][columna];
 			celda.classList = `celda ${valor} descubierta`;
 			celda.innerText = valor; 
-			console.log(valor)
+			
 			descubiertasCont++;
-			console.log(end);
+			
 			if(!end){
 				if (valor === 10){
 					//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
@@ -237,25 +242,26 @@ $(document).ready(function(){
 					//Vamo a bloquear todas las casillas
 					const celdas = document.querySelectorAll(".celda");
 					celdas.forEach(element => {
-						console.log(element)
+						
 						celdaSeleccionada(element);
 					});
-					//hacer un post con la puntuacion nueva
-					//pasarle el tiempo, este comprueba las clases bandera bien colocadas
+					//hacer un post con la puntuacion nuevo
 					
 					
 					//Mandar a la pagina main 
-					setTimeout(() =>{
-						enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active)
-					}, 5000);
+					
 				}else if (valor === 0){
 					//Descubre las celdas colindantes con valor ya que no seran minas
 					ceroCelda(fila, columna);
 					
 				}
 				if(descubiertasCont >= 34){
-					calcularPuntacion();
+					let puntos = calcularPuntacion();
 					end = true;
+					const puntuacion = document.querySelector("#puntos");
+					puntuacion.innerHTML = puntos;
+					stopTimer();
+					volver();
 				}
 			}
 		}
@@ -268,34 +274,31 @@ $(document).ready(function(){
 					let filaSuma = Number(fila)+i;
 					
 					let columnaSuma = Number(columna)+j; 
-					console.log (filaSuma, columnaSuma);
+					
 					if ( filaSuma >= 0 && filaSuma < filas && columnaSuma >= 0 && columnaSuma < columnas) {
 						const id = `#c${filaSuma}_${columnaSuma}`;
 						const celda = document.querySelector(id);
-						console.log(celda);
-						let valor = virtualTablero[filaSuma][columnaSuma];
-						descubiertasCont++;
-						celda.classList = `celda ${valor}`;
-						celda.innerText = valor; 
+						
+						if (!celda.classList.contains("descubierta")){
+						celdaSeleccionada(celda);
+						}
+						
 					}
 				}
 			}
 		}
 		
 		function calcularPuntacion(){
-			let nuevaPuntuacion = 0;
-			
-			let columna = 0;
-			let fila = 0;
-			let valor = 0;
-			let cont = 0;
-			
+			let nuevaPuntuacion = 0;			
 
 			seconds += minutes/60;
 			nuevaPuntuacion -= (seconds/10)*5;
+		
+			nuevaPuntuacion += (descubiertasCont)*2;
 			console.log(nuevaPuntuacion);
-			nuevaPuntuacion += (descubiertasCont)*5;
-			console.log(nuevaPuntuacion);
+			if(nuevaPuntuacion<0){
+				nuevaPuntuacion = 0;
+			}
 			return nuevaPuntuacion;
 		}
 
@@ -337,6 +340,7 @@ $(document).ready(function(){
 			});
 		
 			const data = await response.json();
+			window.location.assign("../Index.html");	
 			console.log(data);
 		}
 		

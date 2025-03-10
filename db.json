@@ -5,23 +5,23 @@
         "active": false
     },
     {
-        "username": "a",
-        "points": 0,
-        "active": false
-    },
-    {
-        "username": "ajj",
-        "points": 200.5,
-        "active": false
-    },
-    {
-        "username": "aaaaaaaaaaaaaaaa",
-        "points": 0,
-        "active": false
-    },
-    {
         "username": "hgf",
         "points": 25,
+        "active": false
+    },
+    {
+        "username": "sd",
+        "points": 7.5,
+        "active": false
+    },
+    {
+        "username": "qwe",
+        "points": 9,
+        "active": false
+    },
+    {
+        "username": "rob",
+        "points": 0,
         "active": true
     }
 ]
