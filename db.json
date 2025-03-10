@@ -11,12 +11,17 @@
     },
     {
         "username": "ajj",
-        "points": 106.5,
-        "active": true
+        "points": 200.5,
+        "active": false
     },
     {
         "username": "aaaaaaaaaaaaaaaa",
         "points": 0,
         "active": false
+    },
+    {
+        "username": "hgf",
+        "points": 25,
+        "active": true
     }
 ]

@@ -83,7 +83,7 @@ $(document).ready(function(){
 		let timer;
 		let minutes = 0;
 		let seconds = 0;
-		let contBanderas = 0;
+		let descubiertasCont = 0;
 		let virtualTablero = new Array(5);
 		for (let i = 0; i < virtualTablero.length; i++) {
     		virtualTablero[i] = new Array(8).fill(0);
@@ -137,12 +137,14 @@ $(document).ready(function(){
 		
 		function banderita(celda){
 			console.log("banderas");
-			
+			const imagen = document.createElement("img");
+			celda.innerText = ""; 
+					
 			console.log(celda.classList.value);
-			if(celda.classList.value ==="celda"){
+			if(celda.classList ==="celda"){
 				celda.classList = "celda bandera";
-
-			}else if (celda.classList.value ==="celda bandera"){
+				imagen.src= "../img/bandera.jpg";
+			}else if (celda.classList ==="celda bandera"){
 				celda.classList = "celda";
 				
 			}
@@ -213,7 +215,7 @@ $(document).ready(function(){
 			celda.classList = `celda ${valor} descubierta`;
 			celda.innerText = valor; 
 			console.log(valor)
-			contBanderas++;
+			descubiertasCont++;
 			console.log(end);
 			if(!end){
 				if (valor === 10){
@@ -224,7 +226,13 @@ $(document).ready(function(){
 					const imagen = document.createElement("img");
 					celda.innerText = ""; 
 					imagen.src= "../img/mina.jpg";
+					let puntos = calcularPuntacion();
 					
+					const puntuacion = document.querySelector("#puntos");
+					puntuacion.innerHTML = puntos;
+					
+					currentPlayer.points = puntos;// y hacer POST
+					console.log(currentPlayer);
 					volver();
 					//Vamo a bloquear todas las casillas
 					const celdas = document.querySelectorAll(".celda");
@@ -235,13 +243,7 @@ $(document).ready(function(){
 					//hacer un post con la puntuacion nueva
 					//pasarle el tiempo, este comprueba las clases bandera bien colocadas
 					
-					let puntos = calcularPuntacion();
 					
-					const puntuacion = document.querySelector("#puntos");
-					puntuacion.innerHTML = puntos;
-					
-					currentPlayer.points = puntos;// y hacer POST
-					console.log(currentPlayer);
 					//Mandar a la pagina main 
 					setTimeout(() =>{
 						enviarPuntos(currentPlayer.username, currentPlayer.points, currentPlayer.active)
@@ -251,7 +253,7 @@ $(document).ready(function(){
 					ceroCelda(fila, columna);
 					
 				}
-				if(contBanderas >= 34){
+				if(descubiertasCont >= 34){
 					calcularPuntacion();
 					end = true;
 				}
@@ -272,7 +274,7 @@ $(document).ready(function(){
 						const celda = document.querySelector(id);
 						console.log(celda);
 						let valor = virtualTablero[filaSuma][columnaSuma];
-						contBanderas++;
+						descubiertasCont++;
 						celda.classList = `celda ${valor}`;
 						celda.innerText = valor; 
 					}
@@ -282,28 +284,17 @@ $(document).ready(function(){
 		
 		function calcularPuntacion(){
 			let nuevaPuntuacion = 0;
-			const celdas = document.querySelectorAll(".bandera");
+			
 			let columna = 0;
 			let fila = 0;
 			let valor = 0;
 			let cont = 0;
-			celdas.forEach(celda => {
-				fila = celda.id[1];
-			 	columna = celda.id[3];
-				valor = virtualTablero[fila][columna];
-				if (valor === 10){
-					nuevaPuntuacion += 5;
-					cont++;
-				}
-			});
+			
 
 			seconds += minutes/60;
 			nuevaPuntuacion -= (seconds/10)*5;
-
-			if (cont >= 8){
-				nuevaPuntuacion += 100;
-			}
-			nuevaPuntuacion += (contBanderas)*5;
+			console.log(nuevaPuntuacion);
+			nuevaPuntuacion += (descubiertasCont)*5;
 			console.log(nuevaPuntuacion);
 			return nuevaPuntuacion;
 		}
