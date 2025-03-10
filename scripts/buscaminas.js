@@ -255,14 +255,15 @@ $(document).ready(function(){
 					ceroCelda(fila, columna);
 					
 				}
-				if(descubiertasCont >= 34){
-					let puntos = calcularPuntacion();
-					end = true;
-					const puntuacion = document.querySelector("#puntos");
-					puntuacion.innerHTML = puntos;
-					stopTimer();
-					volver();
-				}
+				
+			}
+			if(descubiertasCont >= 34 && !end){
+				let puntos = calcularPuntacion();
+				end = true;
+				const puntuacion = document.querySelector("#puntos");
+				puntuacion.innerHTML = puntos;
+				stopTimer();
+				volver();
 			}
 		}
 
