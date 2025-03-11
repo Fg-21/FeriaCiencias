@@ -224,7 +224,18 @@ $(document).ready(function(){
 			celda.removeEventListener("contextmenu", auxDroite);
 			let valor = virtualTablero[fila][columna];
 			celda.classList = `celda ${valor} descubierta`;
-			celda.innerText = valor; 
+			if (valor === 10){
+				celda.innerHTML = "";
+				const imagen = document.createElement("img");
+				celda.innerHTML = ""; 
+				imagen.src= "../img/mina.png";
+				console.log(imagen, celda);
+				imagen.style.width = "25px"; 
+				imagen.style.height = "25px";
+				celda.appendChild(imagen);
+			}else{
+				celda.innerText = valor; 
+			}
 			
 			descubiertasCont++;
 			
@@ -234,15 +245,9 @@ $(document).ready(function(){
 					end = true;
 					
 					stopTimer();
-					const imagen = document.createElement("img");
-					celda.innerHTML = ""; 
-					imagen.src= "../img/mina.png";
-        			 
-        			imagen.style.width = "25px"; 
-        			imagen.style.height = "25px";
-        			celda.appendChild(imagen);
+					
 					let puntos = calcularPuntacion();
-					alert("Has perdido");
+					//alert("Has perdido");
 					const puntuacion = document.querySelector("#puntos");
 					puntuacion.innerHTML = puntos;
 					
@@ -303,7 +308,7 @@ $(document).ready(function(){
 		function calcularPuntacion(){
 			let nuevaPuntuacion = 0;			
 
-			seconds += minutes/60;
+			seconds += minutes*60;
 			nuevaPuntuacion -= (seconds/10)*5;
 		
 			nuevaPuntuacion += (descubiertasCont)*2;
