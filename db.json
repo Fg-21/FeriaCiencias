@@ -1,26 +1,31 @@
 [
     {
-        "username": "asopla",
+        "username": "d",
         "points": 0,
         "active": false
     },
     {
+        "username": "hola",
+        "points": 58,
+        "active": false
+    },
+    {
+        "username": "perejil",
+        "points": 53,
+        "active": false
+    },
+    {
         "username": "hgf",
-        "points": 25,
+        "points": 0,
         "active": false
     },
     {
-        "username": "sd",
-        "points": 7.5,
+        "username": "rodrigo",
+        "points": 0,
         "active": false
     },
     {
-        "username": "qwe",
-        "points": 9,
-        "active": false
-    },
-    {
-        "username": "rob",
+        "username": "iiii",
         "points": 0,
         "active": true
     }

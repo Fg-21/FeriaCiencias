@@ -55,7 +55,13 @@ $(document).ready(function(){
 	//Ejecutar una parte del codigo u otra segun el documento html en el que estemos
 	if (window.location.pathname.includes('Index.html')) {
 		console.log(window.location.pathname);
-
+		$("#iNombre").on('keyup', function (e) {
+			var keycode = e.keyCode || e.which;
+			  if (keycode == 13) {
+				e.preventDefault();
+				comprobar($("#iNombre").val());
+			  }
+		  });
 		$("#bJugar").on("click", (e) => {
 			e.preventDefault();
 			comprobar($("#iNombre").val());
@@ -144,10 +150,10 @@ $(document).ready(function(){
 			if(celda.classList.value === "celda"){
 				celda.classList.value = "celda bandera";
 				const imagen = document.createElement("img");
-       			imagen.src = "../img/banderita.png"; 
+       			imagen.src = "../img/bandera.png"; 
         		imagen.alt = "Bandera"; 
-        		imagen.style.width = "20px"; 
-        		imagen.style.height = "20px";
+        		imagen.style.width = "25px"; 
+        		imagen.style.height = "25px";
         		celda.appendChild(imagen);
 			}else if (celda.classList.value ==="celda bandera"){
 				celda.classList.value = "celda";
@@ -226,13 +232,17 @@ $(document).ready(function(){
 				if (valor === 10){
 					//Bloquear todo y cerrar el juego hacer post de la puntuacion¡
 					end = true;
-					alert("Has perdido");
+					
 					stopTimer();
 					const imagen = document.createElement("img");
-					celda.innerText = ""; 
-					imagen.src= "../img/mina.jpg";
+					celda.innerHTML = ""; 
+					imagen.src= "../img/mina.png";
+        			 
+        			imagen.style.width = "25px"; 
+        			imagen.style.height = "25px";
+        			celda.appendChild(imagen);
 					let puntos = calcularPuntacion();
-					
+					alert("Has perdido");
 					const puntuacion = document.querySelector("#puntos");
 					puntuacion.innerHTML = puntos;
 					
@@ -262,6 +272,7 @@ $(document).ready(function(){
 				end = true;
 				const puntuacion = document.querySelector("#puntos");
 				puntuacion.innerHTML = puntos;
+				currentPlayer.points = puntos;
 				stopTimer();
 				volver();
 			}
@@ -300,7 +311,7 @@ $(document).ready(function(){
 			if(nuevaPuntuacion<0){
 				nuevaPuntuacion = 0;
 			}
-			return nuevaPuntuacion;
+			return parseInt(nuevaPuntuacion);
 		}
 
 		function startTimer() {
