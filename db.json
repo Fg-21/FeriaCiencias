@@ -1,36 +1,21 @@
 [
     {
-        "username": "hgf",
-        "points": 0,
-        "active": false
-    },
-    {
         "username": "elena",
         "points": 45,
         "active": false
     },
     {
-        "username": "bruh ",
-        "points": 65,
+        "username": "ivan",
+        "points": 46,
         "active": false
     },
     {
-        "username": "ivan(otra vez)",
-        "points": 9,
+        "username": "asdgc",
+        "points": 20,
         "active": false
     },
     {
-        "username": "1244646554654874968465489874987498498989874897498748",
-        "points": 32,
-        "active": false
-    },
-    {
-        "username": "yo",
-        "points": 59,
-        "active": false
-    },
-    {
-        "username": ",",
+        "username": "asopla",
         "points": 0,
         "active": true
     }

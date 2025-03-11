@@ -86,6 +86,7 @@ $(document).ready(function(){
 		console.log(window.location.hostname);
 		const filas = 5; 
     	const columnas = 8;
+		let datosRanking;
 		let timer;
 		let minutes = 0;
 		let seconds = 0;
@@ -144,7 +145,7 @@ $(document).ready(function(){
 		
 		function banderita(celda){
 			console.log("banderas");
-			celda.innerText = ""; 
+			celda.innerHTML = ""; 
 					
 			console.log(celda.classList.value);
 			if(celda.classList.value === "celda"){
@@ -152,8 +153,8 @@ $(document).ready(function(){
 				const imagen = document.createElement("img");
        			imagen.src = "../img/bandera.png"; 
         		imagen.alt = "Bandera"; 
-        		imagen.style.width = "25px"; 
-        		imagen.style.height = "25px";
+        		imagen.style.width = "20px"; 
+        		imagen.style.height = "20px";
         		celda.appendChild(imagen);
 			}else if (celda.classList.value ==="celda bandera"){
 				celda.classList.value = "celda";
@@ -233,8 +234,11 @@ $(document).ready(function(){
 				imagen.style.width = "25px"; 
 				imagen.style.height = "25px";
 				celda.appendChild(imagen);
+			}else if(valor === 0){
+				celda.innerText = ""; 
+				celda.style.backgroundColor = "#4889b5";
 			}else{
-				celda.innerText = valor; 
+				celda.innerText = valor;
 			}
 			
 			descubiertasCont++;
@@ -250,9 +254,13 @@ $(document).ready(function(){
 					//alert("Has perdido");
 					const puntuacion = document.querySelector("#puntos");
 					puntuacion.innerHTML = puntos;
-					
+					mensajeFinal("Has Perdido");
 					currentPlayer.points = puntos;// y hacer POST
 					console.log(currentPlayer);
+					//añadirlo en local, despuesse hara el push
+						
+					datosRanking.slice(datosRanking.findIndex(per => per.username === currentPlayer.name),1,currentPlayer);
+					crearRanking(datosRanking);
 					volver();
 					//Vamo a bloquear todas las casillas
 					const celdas = document.querySelectorAll(".celda");
@@ -279,6 +287,7 @@ $(document).ready(function(){
 				puntuacion.innerHTML = puntos;
 				currentPlayer.points = puntos;
 				stopTimer();
+				mensajeFinal("Has Ganado");
 				volver();
 			}
 		}
@@ -297,14 +306,17 @@ $(document).ready(function(){
 						const celda = document.querySelector(id);
 						
 						if (!celda.classList.contains("descubierta")){
-						celdaSeleccionada(celda);
+							celdaSeleccionada(celda);
 						}
 						
 					}
 				}
 			}
 		}
-		
+		function mensajeFinal(txt){
+			mensaje = document.querySelector("#tMensaje");
+			mensaje.innerText = txt;
+		}
 		function calcularPuntacion(){
 			let nuevaPuntuacion = 0;			
 
@@ -371,38 +383,43 @@ $(document).ready(function(){
 			const data = await response.json();
 			console.log(data);
 			crearRanking(data);
-
+			datosRanking = data
 		}
 
 		function crearRanking(datos){
 			let datosOrdenados;
 			datosOrdenados = datos.sort((a, b) => b.points - a.points);
 			const table = document.querySelector("#tableroHS");
+			table.innerHTML = "";
 			datosOrdenados.forEach((item, index) => {
-                const tr = document.createElement("tr");
-				tr.className = "filaleaderboard";
-                
-                const rankCell = document.createElement("td");
-                rankCell.textContent = index + 1;
-				rankCell.className = "celdaleaderboard";
-                tr.appendChild(rankCell);
-
-               
-                const usernameCell = document.createElement("td");
-                usernameCell.textContent = item.username;
-				usernameCell.className = "celdaleaderboard";
-                tr.appendChild(usernameCell);
-
-                
-                const pointsCell = document.createElement("td");
-                pointsCell.textContent = item.points;
-                tr.appendChild(pointsCell);
-				pointsCell.className = "celdaleaderboard";
-                
-                table.appendChild(tr);
 				if(item.active){
 					currentPlayer = item;
 				}
+				if (index < 5){
+					const tr = document.createElement("tr");
+					tr.className = "filaleaderboard";
+					
+					const rankCell = document.createElement("td");
+					rankCell.textContent = index + 1;
+					rankCell.className = "celdaleaderboard";
+					tr.appendChild(rankCell);
+
+				
+					const usernameCell = document.createElement("td");
+					usernameCell.textContent = item.username;
+					usernameCell.className = "celdaleaderboard";
+					tr.appendChild(usernameCell);
+
+					
+					const pointsCell = document.createElement("td");
+					pointsCell.textContent = item.points;
+					tr.appendChild(pointsCell);
+					pointsCell.className = "celdaleaderboard";
+					
+					table.appendChild(tr);
+				}
+				//Elegir el current player
+				
             });
 		}
 
