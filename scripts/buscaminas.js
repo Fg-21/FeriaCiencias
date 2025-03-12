@@ -225,6 +225,7 @@ $(document).ready(function(){
 			celda.removeEventListener("contextmenu", auxDroite);
 			let valor = virtualTablero[fila][columna];
 			celda.classList = `celda ${valor} descubierta`;
+			celda.style.backgroundColor = "#4080bf";
 			if (valor === 10){
 				celda.innerHTML = "";
 				const imagen = document.createElement("img");
@@ -236,7 +237,6 @@ $(document).ready(function(){
 				celda.appendChild(imagen);
 			}else if(valor === 0){
 				celda.innerText = ""; 
-				celda.style.backgroundColor = "#4889b5";
 			}else{
 				celda.innerText = valor;
 			}
@@ -281,7 +281,7 @@ $(document).ready(function(){
 				
 			}
 			if(descubiertasCont >= 34 && !end){
-				let puntos = calcularPuntacion();
+				let puntos = calcularPuntacion()+100;
 				end = true;
 				const puntuacion = document.querySelector("#puntos");
 				puntuacion.innerHTML = puntos;
